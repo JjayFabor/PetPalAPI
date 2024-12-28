@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import models as auth_models
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 class UserManager(auth_models.BaseUserManager):
