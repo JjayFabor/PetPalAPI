@@ -1,6 +1,9 @@
 import dataclasses
-from typing import TYPE_CHECKING
+import datetime
+import jwt
 
+from typing import TYPE_CHECKING
+from django.conf import settings
 from . import models
 
 if TYPE_CHECKING:
@@ -47,3 +50,21 @@ def create_user(user_dc: "UserDataClass") -> "UserDataClass":
     instance.save()
 
     return UserDataClass.from_instance(instance)
+
+
+def user_email_selector(email: str) -> "User":
+    user = models.User.objects.filter(email=email).first()
+
+    return user
+
+
+def create_token(user_id: int) -> str:
+    payload = dict(
+        id=user_id,
+        exp=datetime.datetime.now() + datetime.timedelta(hours=24),
+        iat=datetime.datetime.now(),
+    )
+
+    token = jwt.encode(payload, settings.JWT_SECRET, algorithm="HS256")
+
+    return token
