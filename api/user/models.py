@@ -52,7 +52,7 @@ class User(auth_models.AbstractUser):
     first_name = models.CharField(_("First Name"), max_length=255)
     last_name = models.CharField(_("Last Name"), max_length=255)
     email = models.EmailField(_("Email"), max_length=255, unique=True)
-    phone_number = PhoneNumberField(unique=True, region="PH", blank=True)
+    phone_number = models.CharField(_("Phone Number"), max_length=50)
     location = models.CharField(_("Location"), max_length=255, default="")
     is_service_provider = models.BooleanField(default=False)
     password = models.CharField(max_length=50)
@@ -61,4 +61,10 @@ class User(auth_models.AbstractUser):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["first_name", "last_name"]
+    REQUIRED_FIELDS = [
+        "first_name",
+        "last_name",
+        "phone_number",
+        "location",
+        "is_service_provider",
+    ]
